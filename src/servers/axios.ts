@@ -11,7 +11,6 @@ export const instance = axios.create({
 
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
   const token = getCookie("accessToken");
-  console.log(config);
   config.headers = {
     Authorization: `Bearer ${token}`,
   };

@@ -12,17 +12,11 @@ import MenuBar from "./MenuBar";
 import { getCookie } from "../servers/cookies";
 import { instance } from "../servers/axios";
 import { useSignInCheck } from "../api/userQuery";
+import Map from "../pages/Location";
 
 const Router = () => {
   const token = getCookie("accessToken");
   const { data } = useSignInCheck();
-  console.log(data);
-  // React.useEffect(() => {
-  //   if (token) {
-  //     instance.get(`/user/me`);
-  //   }
-  // }, []);
-
   return (
     <ErrorBoundary FallbackComponent={Error}>
       <BrowserRouter>
@@ -35,6 +29,7 @@ const Router = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/auth/kakao/callback" element={<Kakao />} />
+          <Route path="/map" element={<Map />} />
         </Routes>
         <MenuBar />
       </BrowserRouter>

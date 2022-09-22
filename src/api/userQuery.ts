@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
 import { instance } from "../servers/axios";
+import { getCookie } from "../servers/cookies";
 import { SweetAlertHook } from "../servers/sweet";
 
 export interface User {
@@ -16,6 +17,7 @@ export interface User {
 export interface IUser {
   data: User[];
 }
+const token = getCookie("accessToken");
 
 //로그인 체크
 export const useSignInCheck = () => {

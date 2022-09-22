@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="mt-[80px] flex flex-col items-start mx-auto max-w-[345px] w-full mb-[42px] p-[20px] rounded-[12px] bg-white drop-shadow-2xl">
@@ -19,7 +22,12 @@ const Profile = () => {
             </p>
           </div>
         </div>
-        <button className="mt-[20px] ml-[80px] w-[102px] h-[30px] border-solid border-1 border-[#AAAAAA] text-[12px] rounded text-[#999999]">
+        <button
+          onClick={() => {
+            navigate("/map");
+          }}
+          className="mt-[20px] ml-[80px] w-[102px] h-[30px] border-solid border-1 border-[#AAAAAA] text-[12px] rounded text-[#999999]"
+        >
           현재 위치 확인
         </button>
       </div>

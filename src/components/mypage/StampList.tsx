@@ -1,23 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import useCoords from "../../hook/useCoords";
 
 const StampList = () => {
   const stampList = [
-    "개도",
-    "굴업도",
-    "대이작도",
-    "덕적도",
-    "도롱이여못",
-    "매물도",
-    "무의도",
-    "민둥산",
-    "박달고치",
-    "선자령",
-    "영남알프스",
-    "울릉도",
-    "우도",
-    "천사섬",
-    "샤랑도",
+    {
+      area: "대이작도",
+      latitude: 37.4931456,
+      longitude: 126.9202944,
+    },
+    {
+      area: "기장",
+      latitude: 100,
+      longitude: 333,
+    },
   ];
+  const [active, setActive] = useState(false);
+  const { latitude, longitude } = useCoords();
+
+  const checkSameArea = (stamp: any) => {
+    if (stamp.latitude === latitude && stamp.longitude === longitude) {
+      return alert("목적지에 도착하셨군요! 인증하세요!");
+    }
+    return alert("해당위치가 아닙니다.");
+  };
 
   return (
     <div className="max-w-[375px] w-full mx-auto mb-[50px]">
@@ -30,9 +35,14 @@ const StampList = () => {
         {stampList.map((stamp, idx) => {
           return (
             <Fragment key={idx}>
-              <div className="flex flex-col items-center mb-[15px]">
-                <p className="w-[100px] h-[100px] bg-[#6FCF97] rounded-full mb-[10px] font-medium"></p>
-                <p className="text-[13px]">{stamp}</p>
+              <div onClick={() => checkSameArea(stamp)} className="flex flex-col items-center mb-[15px]">
+                {active ? (
+                  <p className="w-[100px] h-[100px] bg-[#6FCF97] rounded-full mb-[10px] font-medium" />
+                ) : (
+                  <p className="w-[100px] h-[100px] bg-[gray] rounded-full mb-[10px] font-medium" />
+                )}
+
+                <p className="text-[13px]">{stamp.area}</p>
               </div>
             </Fragment>
           );
