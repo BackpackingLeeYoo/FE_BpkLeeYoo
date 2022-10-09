@@ -23,7 +23,6 @@ const SignIn = () => {
         <p className="text-gray-900 text-30">백패킹의 이유</p>
         <div onClick={signInBtn} className="mt-[200px]">
           <img width={327} src={kakaoLogin} alt="kakaoLogin" />
-          <p>{isLogin() ? "true" : "false"}</p>
         </div>
       </div>
     </Fragment>

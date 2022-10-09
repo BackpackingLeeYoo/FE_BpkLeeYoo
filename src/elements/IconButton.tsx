@@ -1,15 +1,41 @@
 import React from "react";
 import styled from "styled-components";
 import { AiOutlineCamera } from "react-icons/ai";
+import { GiBackpack } from "react-icons/gi";
+import { VscAccount, VscComment } from "react-icons/vsc";
 
 const IconButton = (props: any) => {
-  const { _onClick, size, camera } = props;
+  const { _onClick, size, camera, backpack, my, review } = props;
 
   //아이콘 작동
   if (camera) {
     return (
       <React.Fragment>
         <AiOutlineCamera color={props.color} size={size} onClick={_onClick}></AiOutlineCamera>
+      </React.Fragment>
+    );
+  }
+
+  if (backpack) {
+    return (
+      <React.Fragment>
+        <GiBackpack color={props.color} size={size} onClick={_onClick}></GiBackpack>
+      </React.Fragment>
+    );
+  }
+
+  if (my) {
+    return (
+      <React.Fragment>
+        <VscAccount color={props.color} size={size} onClick={_onClick}></VscAccount>
+      </React.Fragment>
+    );
+  }
+
+  if (review) {
+    return (
+      <React.Fragment>
+        <VscComment color={props.color} size={size} onClick={_onClick}></VscComment>
       </React.Fragment>
     );
   }

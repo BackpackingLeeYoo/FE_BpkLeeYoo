@@ -26,14 +26,7 @@ const Router = () => {
         </Helmet>
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <MyPage />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/" element={<MyPage />} />
           <Route
             path="/map"
             element={
