@@ -30,8 +30,8 @@ const Profile = () => {
               <span className="font-black">{userInfo ? userInfo.nickname : "백패커"} 님</span>의
             </p>
             <p className="text-14">
-              <span className="text-[#27AE60] ">{userInfo ? userInfo.stamps.length : "-"}가지</span> 이유가
-              기록되었습니다.
+              <span className="text-[#27AE60] ">{userInfo.stamps?.length ? userInfo.stamps?.length : "-"}가지</span>{" "}
+              이유가 기록되었습니다.
             </p>
           </div>
         </div>
