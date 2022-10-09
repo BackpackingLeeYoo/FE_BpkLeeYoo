@@ -27,14 +27,7 @@ const Router = () => {
         <Header />
         <Routes>
           <Route path="/" element={<MyPage />} />
-          <Route
-            path="/map"
-            element={
-              <PrivateRoute>
-                <Map />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/map" element={<Map />} />
           <Route
             path="/certification/:stampId"
             element={
