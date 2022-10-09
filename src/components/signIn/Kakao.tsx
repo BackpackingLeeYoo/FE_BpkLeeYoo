@@ -19,7 +19,7 @@ const Kakao = () => {
         const userInfo = {
           nickname: data.user.nickname,
           profileImg: data.user.profileImg,
-          userId: data.user.userId,
+          stamps: data.user.stamps,
         };
         setCookie("accessToken", data.token, 100);
         setUser(userInfo);
