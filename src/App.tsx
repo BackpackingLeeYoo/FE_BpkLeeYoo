@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "./routers/Router";
 import { GlobalStyle } from "./styles/GlobalStyle";
+import dotenv from "dotenv";
 
 const App = () => {
   return (

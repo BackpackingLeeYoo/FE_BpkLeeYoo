@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
-import { instance } from "../servers/axios";
-import { getCookie } from "../servers/cookies";
-import { SweetAlertHook } from "../servers/sweet";
+import { instance } from "../utils/axios";
+import { getCookie } from "../utils/cookies";
+import { SweetAlertHook } from "../utils/sweet";
 
 export interface User {
   loginId?: string;
@@ -21,60 +21,14 @@ const token = getCookie("accessToken");
 
 //로그인 체크
 export const useSignInCheck = () => {
-  return useQuery<IUser, AxiosError>("signInCheck", () => instance.get("/user/me"));
+  return useQuery<any, AxiosError>("signInCheck", () => {
+    return instance.get("/auth/me");
+  });
 };
 
-// 유저 프로젝트 정보
-// export const useGetProjectUser = (pjId: string) => {
-//   return useQuery<IUser, AxiosError>(["getUser", pjId], () => {
-//     return instance.get(`api/users/projects?pjId=${pjId}`);
-//   });
-// };
-
-// 프로필 수정
-// export const useUpdateUser = () => {
-//   return useMutation(async (post: User) => {
-//     await instance.put("api/users/update", post).then(() => {
-//       SweetAlertHook(1000, "success", "프로필 수정 완료😊");
-//     });
-//   });
-// };
-
-// 프로필 정보
-// export const useMyInfo = () => {
-//   return useQuery<IUser, AxiosError>("getMyInfo", () => {
-//     return instance.get("api/users/myInfo/");
-//   });
-// };
-
-// 로그아웃
-// export const useLogOut = () => {
-//   const setHelpProject = useSetRecoilState(HelpProjectList);
-//   const setHelpToolMain = useSetRecoilState(HelpToolMain);
-//   return useMutation(async () => {
-//     await instance
-//       .delete("/auth/logout/")
-//       .then(() => {
-//         SweetAlertHook(1000, "success", "로그아웃 성공😊");
-//         setHelpProject(false);
-//         setHelpToolMain(false);
-//       })
-//       .catch(() => {
-//         SweetAlertHook(1000, "error", "로그아웃 실패😥");
-//       });
-//   });
-// };
-
-// 회원탈퇴
-// export const useLeaveUser = (loginId: string) => {
-//   return useMutation(async () => {
-//     await instance
-//       .delete(`/api/users/?loginId=${loginId}`)
-//       .then(() => {
-//         SweetAlertHook(1000, "success", "회원탈퇴 성공😊");
-//       })
-//       .catch(() => {
-//         SweetAlertHook(1000, "error", "회원탈퇴 실패😊");
-//       });
-//   });
-// };
+//내 스탬프 정보
+export const useGetMyStamp = () => {
+  return useQuery("getMyStamp", async () => {
+    return await instance.get("/mypage");
+  });
+};

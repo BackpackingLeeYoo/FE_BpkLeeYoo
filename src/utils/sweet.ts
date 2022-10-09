@@ -1,7 +1,7 @@
-import Swal from "sweetalert2";
+import Swal, { SweetAlertIcon } from "sweetalert2";
 
 // SweetAlert CustomHook
-export const SweetAlertHook = (timer: any, icon: any, title: any) => {
+export const SweetAlertHook = (timer: number, title: string, icon: SweetAlertIcon) => {
   Swal.mixin({
     toast: true,
     position: "top",

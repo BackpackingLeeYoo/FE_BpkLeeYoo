@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import Error from "../pages/Error";
 import MyPage from "../pages/MyPage";
@@ -9,14 +9,15 @@ import { Helmet } from "react-helmet";
 import Header from "./Header";
 import Kakao from "../components/signIn/Kakao";
 import MenuBar from "./MenuBar";
-import { getCookie } from "../servers/cookies";
-import { instance } from "../servers/axios";
-import { useSignInCheck } from "../api/userQuery";
 import Map from "../pages/Location";
+import Certification from "../pages/Certification";
+import { useSignInCheck } from "../api/userQuery";
+import isLogin from "../utils/isLogin";
+import PrivateRoute from "./PrivateRouter";
 
 const Router = () => {
-  const token = getCookie("accessToken");
-  const { data } = useSignInCheck();
+  // useSignInCheck();
+
   return (
     <ErrorBoundary FallbackComponent={Error}>
       <BrowserRouter>
@@ -25,11 +26,33 @@ const Router = () => {
         </Helmet>
         <Header />
         <Routes>
-          <Route path="/" element={<MyPage />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <MyPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/map"
+            element={
+              <PrivateRoute>
+                <Map />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/certification/:stampId"
+            element={
+              <PrivateRoute>
+                <Certification />
+              </PrivateRoute>
+            }
+          />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/auth/kakao/callback" element={<Kakao />} />
-          <Route path="/map" element={<Map />} />
         </Routes>
         <MenuBar />
       </BrowserRouter>
