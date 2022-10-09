@@ -16,21 +16,22 @@ const Profile = () => {
 
   return (
     <>
-      <div className="mx-auto mt-[80px] mb-[42px] flex w-full max-w-[345px] flex-col items-start rounded-[12px] bg-white p-[20px] drop-shadow-2xl">
+      <div className="mx-auto mt-80 mb-42 flex w-full max-w-375 flex-col items-start rounded-[12px] bg-white p-20 drop-shadow-2xl">
         <div className="flex items-center">
           <img
             src={
               userInfo ? userInfo.profileImg : "https://image.nbkorea.com/NBRB_PC/event/imc/nbxjeonhwangil/h01_on.jpg"
             }
             alt="profile-image"
-            className="mr-[20px] h-[60px] w-[60px] rounded-full border-1 border-solid border-gray-600"
+            className="mr-20 border-gray-600 border-solid rounded-full h-60 w-60 border-1"
           />
           <div className="flex flex-col">
-            <p className="mb-[5px] text-[22px]">
+            <p className="mb-15 text-22">
               <span className="font-black">{userInfo ? userInfo.nickname : "백패커"} 님</span>의
             </p>
-            <p className="text-[14px]">
-              <span className="text-[#27AE60] ">2가지</span> 이유가 기록되었습니다.
+            <p className="text-14">
+              <span className="text-[#27AE60] ">{userInfo ? userInfo.stamps.length : "-"}가지</span> 이유가
+              기록되었습니다.
             </p>
           </div>
         </div>

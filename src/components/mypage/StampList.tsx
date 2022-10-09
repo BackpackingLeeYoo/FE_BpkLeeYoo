@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetMyStamp } from "../../api/userQuery";
 import useCoords from "../../utils/useCoords";
 import { SweetAlertHook } from "../../utils/sweet";
+import Spinner from "../Spinner";
+import isLogin from "../../utils/isLogin";
 
 interface IStampList {
   stampImage: string;
@@ -15,20 +17,22 @@ interface IStampList {
 
 const StampList = () => {
   const navigate = useNavigate();
-  const { data, isLoading, error, isFetching }: any = useGetMyStamp();
-  console.log("data", data, "isLoading", isLoading, "error", error, "isFetching", isFetching);
-
+  const { data, isLoading, error }: any = useGetMyStamp();
   const stampList = data?.data?.stamps;
   const stampCount = data?.data?.isStampCount;
-
   const { latitude, longitude } = useCoords();
+
   const checkSameArea = (stamp: any) => {
-    console.log(stamp);
     const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
-    console.log(latitude, longitude);
-    if (newDistance <= 2000) {
+
+    if (isLogin() && newDistance <= 2000) {
       SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
       return navigate(`/certification/${stamp.stampId}`);
+    }
+
+    if (!isLogin()) {
+      SweetAlertHook(1000, `로그인 후 이용해주세요`, "warning");
+      return navigate(`/signin`);
     }
     return SweetAlertHook(1500, "해당 위치가 아닙니다", "error");
   };
@@ -52,18 +56,19 @@ const StampList = () => {
     return dist;
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error)
+  if (isLoading)
     return (
-      <>
-        An error has occurred:<span className="text-[red]"> {error?.message}</span>{" "}
-      </>
+      <div className="flex justify-center mx-auto mt-100">
+        <Spinner />
+      </div>
     );
 
+  if (error) return <>{SweetAlertHook(2000, `${error?.message}`, "error")}</>;
+
   return (
-    <div className="w-full mx-auto max-w-375 mb-50">
-      <div className="mb-[30px] flex items-center justify-between">
-        <p>나의 기록</p>
+    <div className="mx-auto mb-50 max-w-375">
+      <div className="mb-[30px] flex items-center justify-between ">
+        <p>📍 나의 기록</p>
         <p>
           {stampCount}/{stampList?.length}
         </p>
@@ -75,13 +80,27 @@ const StampList = () => {
             <Fragment key={idx}>
               <div onClick={() => checkSameArea(stamp)} className="flex flex-col items-center mb-15 basis-1/3">
                 {stamp.isStamp ? (
-                  <img src={stamp.stampImage} className="mb-10 font-medium rounded-full h-100 w-100" />
+                  <img
+                    src={
+                      stamp.stampImage
+                        ? stamp.stampImage
+                        : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
+                    }
+                    className="mb-10 font-medium rounded-full h-100 w-100"
+                  />
                 ) : (
                   <div className="mb-10 flex h-100 w-100 items-center	justify-center rounded-full bg-[#182C4D] font-medium opacity-60">
-                    <p className="font-black text-white text-20">인증전</p>
+                    <img
+                      src={
+                        stamp.stampImage
+                          ? stamp.stampImage
+                          : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
+                      }
+                      className="font-medium rounded-full h-100 w-100"
+                    />
+                    <p className="absolute font-black text-gray text-20">인증전</p>
                   </div>
                 )}
-
                 <p className="text-13">{stamp.stampName}</p>
               </div>
             </Fragment>
