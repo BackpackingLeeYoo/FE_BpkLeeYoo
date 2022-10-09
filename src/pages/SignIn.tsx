@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import kakaoLogin from "../images/kakaoLogin.png";
 import { KAKAO_AUTH_URL } from "../utils/auth";
@@ -10,9 +10,10 @@ const SignIn = () => {
   const signInBtn = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
+
   useEffect(() => {
     console.log(isLogin);
-    if (isLogin) return navigate("/");
+    if (isLogin()) return navigate("/");
   }, [isLogin]);
 
   return (
@@ -22,7 +23,7 @@ const SignIn = () => {
         <p className="text-gray-900 text-30">백패킹의 이유</p>
         <div onClick={signInBtn} className="mt-[200px]">
           <img width={327} src={kakaoLogin} alt="kakaoLogin" />
-          <p>{isLogin ? "true" : "false"}</p>
+          <p>{isLogin() ? "true" : "false"}</p>
         </div>
       </div>
     </Fragment>

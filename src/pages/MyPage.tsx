@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import StampList from "../components/mypage/StampList";
 import Profile from "../components/mypage/Profile";
 

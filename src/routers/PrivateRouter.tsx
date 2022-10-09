@@ -6,7 +6,7 @@ interface PrivateRouteProps {
   children: ReactElement;
 }
 const PrivateRoute = ({ children }: PrivateRouteProps): React.ReactElement | null => {
-  if (!isLogin) {
+  if (!isLogin()) {
     return <Navigate to="/signin" />;
   }
 
