@@ -1,14 +1,16 @@
 import React, { useState, SyntheticEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "../elements/IconButton";
 import { instanceForm } from "../utils/axios";
+import { SweetAlertHook } from "../utils/sweet";
 
 const Certification = () => {
   const [reasonText, setReasonText] = useState("");
   const [reasonImg, setReasonImg] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const params = useParams();
-  console.log(params);
+  const navigator = useNavigate();
+
   const setUploadImage = (event: any) => {
     const uploadImage = event.target.files;
 
@@ -22,25 +24,32 @@ const Certification = () => {
   };
 
   const postReason = async () => {
-    console.log(reasonImg);
-
-    const formData = new FormData();
-    formData.append("stampImage", reasonImg);
-    formData.append("stampComment", reasonText);
-    formData.append("weatherTemp", "온도");
-    formData.append("weatherIcon", "날씨");
-    const { data } = await instanceForm.post(`/mypage/${params.stampId}`, formData);
-    console.log(data);
+    try {
+      const formData = new FormData();
+      formData.append("stampImage", reasonImg);
+      formData.append("stampComment", reasonText);
+      formData.append("weatherTemp", "온도");
+      formData.append("weatherIcon", "날씨");
+      const { data } = await instanceForm.post(`/mypage/${params.stampId}`, formData);
+      console.log(data);
+      navigator("/");
+    } catch (error: unknown) {
+      console.log(error);
+      const { message } = error as Error;
+      SweetAlertHook(2000, message, "error");
+    }
   };
 
   return (
     <>
-      <div className="mx-auto mb-[119px] max-w-[375px]">
-        <nav className="fixed top-0 z-10 flex h-[50px] w-full items-center justify-center bg-[#182C4D] px-[15px] shadow-md backdrop-blur-md">
-          <div className="w-full">
-            <p className=" text-[20px] font-black text-[#fff]">인증하기</p>
+      <div className="mx-auto mb-119 max-w-375">
+        <nav className="fixed top-0 z-10 flex h-50 w-full items-center justify-center border-b-1 border-solid border-[#AAAAAA] bg-white px-15">
+          <div className="flex items-center w-full">
+            <IconButton color="black" size="25" backIcon _onClick={() => navigator(-1)} />
+            <p className="ml-15 text-18 font-black text-[#35393D]">인증하기</p>
           </div>
         </nav>
+
         <div className="mt-75 mb-35 px-15">
           <p className="font-black text-18">
             🚩 <span className="text-[#27AE60]">장봉도</span> 도착완료!

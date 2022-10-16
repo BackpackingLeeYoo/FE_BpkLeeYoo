@@ -26,8 +26,22 @@ const Router = () => {
         </Helmet>
         <Header />
         <Routes>
-          <Route path="/" element={<MyPage />} />
-          <Route path="/map" element={<Map />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <MyPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/map"
+            element={
+              <PrivateRoute>
+                <Map />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/certification/:stampId"
             element={

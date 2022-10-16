@@ -19,6 +19,7 @@ export default function useCoords() {
   };
 
   useEffect(() => {
+    console.log("geolocation 실행");
     navigator.geolocation.getCurrentPosition(onSuccess);
   }, []);
 

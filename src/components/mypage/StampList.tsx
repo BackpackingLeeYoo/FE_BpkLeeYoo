@@ -5,6 +5,7 @@ import useCoords from "../../utils/useCoords";
 import { SweetAlertHook } from "../../utils/sweet";
 import Spinner from "../Spinner";
 import isLogin from "../../utils/isLogin";
+import Weather from "../Weather";
 
 interface IStampList {
   stampImage: string;
@@ -63,10 +64,11 @@ const StampList = () => {
       </div>
     );
 
-  if (error) return <>{SweetAlertHook(2000, `${error?.message}`, "error")}</>;
+  // if (error) return <>{SweetAlertHook(2000, `${error?.message}`, "error")}</>;
 
   return (
     <div className="mx-auto mb-50 max-w-375">
+      <Weather />
       <div className="mb-[30px] flex items-center justify-between ">
         <p>📍 나의 기록</p>
         <p>
@@ -78,25 +80,29 @@ const StampList = () => {
         {stampList?.map((stamp: IStampList, idx: number) => {
           return (
             <Fragment key={idx}>
-              <div onClick={() => checkSameArea(stamp)} className="flex flex-col items-center mb-15 basis-1/3">
+              <div className="flex flex-col items-center mb-15 basis-1/3">
                 {stamp.isStamp ? (
                   <img
+                    onClick={() => checkSameArea(stamp)}
                     src={
                       stamp.stampImage
                         ? stamp.stampImage
                         : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
                     }
-                    className="mb-10 font-medium rounded-full h-100 w-100"
+                    className="mb-10 font-medium rounded-full cursor-pointer h-100 w-100"
                   />
                 ) : (
-                  <div className="mb-10 flex h-100 w-100 items-center	justify-center rounded-full bg-[#182C4D] font-medium opacity-60">
+                  <div
+                    onClick={() => checkSameArea(stamp)}
+                    className="mb-10 flex h-100 w-100	cursor-pointer items-center justify-center rounded-full bg-[#182C4D] font-medium opacity-60"
+                  >
                     <img
                       src={
                         stamp.stampImage
                           ? stamp.stampImage
                           : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
                       }
-                      className="font-medium rounded-full h-100 w-100"
+                      className="h-100 w-100 rounded-full border-2 border-solid border-white font-medium hover:border-[#182C4D]"
                     />
                     <p className="absolute font-black text-gray text-20">인증전</p>
                   </div>

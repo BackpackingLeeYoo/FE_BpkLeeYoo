@@ -7,12 +7,14 @@ const MenuBar = () => {
   const navigator = useNavigate();
   const path = useLocation().pathname;
   const isSignIn = path === "/signin";
+  const isMap = path === "/map";
+  const isCertification = path.slice(1, 14) === "certification";
 
-  if (isSignIn) return <></>;
+  if (isSignIn || isMap || isCertification) return <></>;
 
   return (
-    <div className="fixed bottom-0 z-10 flex h-[55px] w-full items-center justify-center px-[15px] shadow-2xl">
-      <div className="max-w-375px flex w-full max-w-[375px] items-center justify-around font-black text-[#999999]">
+    <div className="fixed bottom-0 z-10 flex h-55 w-full items-center justify-center border-t-1 border-solid border-[#AAAAAA] px-15 shadow-2xl">
+      <div className="max-w-375px flex w-full max-w-375 items-center justify-around text-18 text-14 font-black text-[#999999]">
         <div className="flex flex-col items-center cursor-pointer" onClick={() => navigator("/")}>
           <IconButton color="gray" my />
           <p className="mt-4 cursor-pointer">MY</p>

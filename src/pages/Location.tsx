@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import IconButton from "../elements/IconButton";
 import useCoords from "../utils/useCoords";
 
 declare global {
@@ -8,6 +10,8 @@ declare global {
 }
 
 const Location = () => {
+  const navigator = useNavigate();
+
   const { latitude, longitude } = useCoords();
   console.log(latitude, longitude);
 
@@ -52,9 +56,9 @@ const Location = () => {
         });
 
         const message =
-          '<div class="flex items-center justify-center rounded-2xl h-[50px] w-auto p-5"><p>Now here?</p></div>';
+          '<div class="flex items-center justify-center pl-30 rounded-[20px] h-50 w-auto p-5 font-black"><p>Now here?</p></div>';
         const iwContent = message;
-        const iwRemoveable = false;
+        const iwRemoveable = true;
 
         const imageSrc = "https://image.nbkorea.com/NBRB_Mobile/event/imc/nbxjeonhwangil/layer01.png", // 마커 이미지 url, 스프라이트 이미지
           imageSize = new kakao.maps.Size(77, 107), // 마커 이미지의 크기
@@ -82,7 +86,13 @@ const Location = () => {
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
   }, [latitude, longitude]);
 
-  return <div className="mx-auto h-[100vh] w-[100vw]" id="map" />;
+  return (
+    <div className="mx-auto h-[100vh] w-[100vw]" id="map">
+      <nav className="fixed top-0 z-10 flex items-center w-full h-50 px-15">
+        <IconButton color="black" size="40" backIcon _onClick={() => navigator(-1)} />
+      </nav>
+    </div>
+  );
 };
 
 export default Location;

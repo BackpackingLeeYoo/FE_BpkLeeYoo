@@ -21,7 +21,7 @@ const token = getCookie("accessToken");
 
 //로그인 체크
 export const useSignInCheck = () => {
-  return useQuery<any, AxiosError>("signInCheck", () => {
+  return useQuery<any, AxiosError>("userCheck", () => {
     return instance.get("/auth/me");
   });
 };
