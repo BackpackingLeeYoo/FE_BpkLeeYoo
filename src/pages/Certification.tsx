@@ -1,5 +1,5 @@
 import React, { useState, SyntheticEvent } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import IconButton from "../elements/IconButton";
 import { instanceForm } from "../utils/axios";
 import { SweetAlertHook } from "../utils/sweet";
@@ -9,7 +9,10 @@ const Certification = () => {
   const [reasonImg, setReasonImg] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const params = useParams();
+  const location = useLocation();
   const navigator = useNavigate();
+
+  const stampLocation = location?.search?.replace("?", "");
 
   const setUploadImage = (event: any) => {
     const uploadImage = event.target.files;
@@ -30,7 +33,7 @@ const Certification = () => {
       formData.append("weatherTemp", "온도");
       formData.append("weatherIcon", "날씨");
       const { data } = await instanceForm.put(`/mypage/${params.stampId}`, formData);
-      navigator("/");
+      navigator(`/reason/${params.stampId}`);
     } catch (error: unknown) {
       console.log(error);
       const { message } = error as Error;
@@ -43,7 +46,8 @@ const Certification = () => {
       <div className="mx-auto mb-119 max-w-375">
         <div className="mt-75 mb-35 px-15">
           <p className="font-black text-18">
-            🚩 <span className="text-[#27AE60]">장봉도</span> 도착완료!
+            🚩 <span className="text-[#27AE60]">{stampLocation} </span>
+            도착완료!
           </p>
         </div>
         <label htmlFor="success_image">

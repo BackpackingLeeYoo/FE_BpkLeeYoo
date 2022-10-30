@@ -9,7 +9,6 @@ import { SweetAlertHook } from "./utils/sweet";
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
-      console.log(query, error);
       if (query.state.status === "error") {
         const { message } = error as Error;
         SweetAlertHook(2000, message, "error");
@@ -18,11 +17,10 @@ export const queryClient = new QueryClient({
   }),
   defaultOptions: {
     queries: {
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       retry: 2,
-      cacheTime: 1000 * 60 * 60 * 24 * 7,
     },
   },
 });

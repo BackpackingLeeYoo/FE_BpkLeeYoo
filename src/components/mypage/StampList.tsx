@@ -27,9 +27,9 @@ const StampList = (props: any) => {
     const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
     console.log(newDistance);
 
-    if (isLogin() && newDistance < 2000) {
+    if (isLogin() && newDistance) {
       SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
-      return navigate(`/certification/${stamp.stampId}`);
+      return navigate(`/certification/${stamp.stampId}?${stamp.stampName}`);
     }
 
     if (!isLogin()) {

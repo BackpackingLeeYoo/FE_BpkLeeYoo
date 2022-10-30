@@ -5,6 +5,7 @@ import { useGetMyStamp } from "../api/userQuery";
 
 const MyPage = () => {
   const stampList = useGetMyStamp();
+  console.log(stampList);
 
   return (
     <Fragment>
