@@ -3,16 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { user } from "../../recoil/user";
 
-interface IUserInfo {
+export interface IUserInfo {
   profileImg: string;
   nickname: string;
 }
 
-const Profile = () => {
+const Profile = (props: any) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(user);
-
-  console.log(userInfo);
 
   return (
     <>
@@ -30,8 +28,8 @@ const Profile = () => {
               <span className="font-black">{userInfo ? userInfo.nickname : "백패커"} 님</span>의
             </p>
             <p className="text-14">
-              <span className="text-[#27AE60] ">{userInfo.stamps?.length ? userInfo.stamps?.length : "-"}가지</span>{" "}
-              이유가 기록되었습니다.
+              <span className="text-[#27AE60] ">{props?.stampList?.data?.data?.isStampCount}가지</span> 이유가
+              기록되었습니다.
             </p>
           </div>
         </div>

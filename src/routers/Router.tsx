@@ -12,8 +12,8 @@ import MenuBar from "./MenuBar";
 import Map from "../pages/Location";
 import Certification from "../pages/Certification";
 import { useSignInCheck } from "../api/userQuery";
-import isLogin from "../utils/isLogin";
 import PrivateRoute from "./PrivateRouter";
+import Reason from "../pages/Reason";
 
 const Router = () => {
   // useSignInCheck();
@@ -47,6 +47,14 @@ const Router = () => {
             element={
               <PrivateRoute>
                 <Certification />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/reason/:stampId"
+            element={
+              <PrivateRoute>
+                <Reason />
               </PrivateRoute>
             }
           />

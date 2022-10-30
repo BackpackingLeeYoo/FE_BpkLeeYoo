@@ -20,7 +20,6 @@ const Certification = () => {
 
   const setUploadText = (event: any) => {
     setReasonText(event.target.value);
-    console.log(reasonText);
   };
 
   const postReason = async () => {
@@ -30,8 +29,7 @@ const Certification = () => {
       formData.append("stampComment", reasonText);
       formData.append("weatherTemp", "온도");
       formData.append("weatherIcon", "날씨");
-      const { data } = await instanceForm.post(`/mypage/${params.stampId}`, formData);
-      console.log(data);
+      const { data } = await instanceForm.put(`/mypage/${params.stampId}`, formData);
       navigator("/");
     } catch (error: unknown) {
       console.log(error);
@@ -43,13 +41,6 @@ const Certification = () => {
   return (
     <>
       <div className="mx-auto mb-119 max-w-375">
-        <nav className="fixed top-0 z-10 flex h-50 w-full items-center justify-center border-b-1 border-solid border-[#AAAAAA] bg-white px-15">
-          <div className="flex items-center w-full">
-            <IconButton color="black" size="25" backIcon _onClick={() => navigator(-1)} />
-            <p className="ml-15 text-18 font-black text-[#35393D]">인증하기</p>
-          </div>
-        </nav>
-
         <div className="mt-75 mb-35 px-15">
           <p className="font-black text-18">
             🚩 <span className="text-[#27AE60]">장봉도</span> 도착완료!

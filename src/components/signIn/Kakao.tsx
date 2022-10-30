@@ -15,7 +15,6 @@ const Kakao = () => {
     const getKakao = async (code: string) => {
       try {
         const { data } = await instance.get(`auth/kakao?code=${code}`);
-        console.log(data);
         const userInfo = {
           nickname: data.user.nickname,
           profileImg: data.user.profileImg,

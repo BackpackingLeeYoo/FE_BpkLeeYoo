@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetMyStamp } from "../../api/userQuery";
 import useCoords from "../../utils/useCoords";
@@ -16,17 +16,18 @@ interface IStampList {
   stampId: number;
 }
 
-const StampList = () => {
+const StampList = (props: any) => {
   const navigate = useNavigate();
-  const { data, isLoading, error }: any = useGetMyStamp();
-  const stampList = data?.data?.stamps;
-  const stampCount = data?.data?.isStampCount;
+  const defaultImg = "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg";
+  const stampList = props.stampList.data?.data?.stamps;
+  const stampCount = props.stampList.data?.data?.isStampCount;
   const { latitude, longitude } = useCoords();
 
   const checkSameArea = (stamp: any) => {
     const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
+    console.log(newDistance);
 
-    if (isLogin() && newDistance <= 2000) {
+    if (isLogin() && newDistance < 2000) {
       SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
       return navigate(`/certification/${stamp.stampId}`);
     }
@@ -53,11 +54,19 @@ const StampList = () => {
     dist = dist * 60 * 1.1515 * 1.609344 * 1000;
     if (dist < 100) dist = Math.round(dist / 10) * 10;
     else dist = Math.round(dist / 100) * 100;
-    console.log(dist);
     return dist;
   };
 
-  if (isLoading)
+  const handleImgError = (e: React.ChangeEvent<HTMLImageElement>) => {
+    e.target.src = defaultImg;
+  };
+
+  const getReason = (stamp: any) => {
+    // SweetAlertHook(2000, `인증이 완료된 스탬프입니다.`, "success");
+    navigate(`/reason/${stamp.stampId}`);
+  };
+
+  if (props?.stampList?.isLoading)
     return (
       <div className="flex justify-center mx-auto mt-100">
         <Spinner />
@@ -76,19 +85,16 @@ const StampList = () => {
         </p>
       </div>
 
-      <div className="flex">
+      <div className="flex flex-wrap w-full">
         {stampList?.map((stamp: IStampList, idx: number) => {
           return (
             <Fragment key={idx}>
               <div className="flex flex-col items-center mb-15 basis-1/3">
-                {stamp.isStamp ? (
+                {stamp?.isStamp ? (
                   <img
-                    onClick={() => checkSameArea(stamp)}
-                    src={
-                      stamp.stampImage
-                        ? stamp.stampImage
-                        : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
-                    }
+                    onClick={() => getReason(stamp)}
+                    src={stamp.stampImage}
+                    onError={handleImgError}
                     className="mb-10 font-medium rounded-full cursor-pointer h-100 w-100"
                   />
                 ) : (
@@ -97,12 +103,9 @@ const StampList = () => {
                     className="mb-10 flex h-100 w-100	cursor-pointer items-center justify-center rounded-full bg-[#182C4D] font-medium opacity-60"
                   >
                     <img
-                      src={
-                        stamp.stampImage
-                          ? stamp.stampImage
-                          : "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg"
-                      }
-                      className="h-100 w-100 rounded-full border-2 border-solid border-white font-medium hover:border-[#182C4D]"
+                      src={stamp.stampImage}
+                      onError={handleImgError}
+                      className="font-medium border-2 border-white border-solid rounded-full h-100 w-100"
                     />
                     <p className="absolute font-black text-gray text-20">인증전</p>
                   </div>
