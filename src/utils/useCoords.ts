@@ -7,8 +7,8 @@ interface UseCoordsState {
 
 export default function useCoords() {
   const [coords, setCoords] = React.useState<UseCoordsState>({
-    latitude: 33.450701,
-    longitude: 126.570667,
+    latitude: 0,
+    longitude: 0,
   });
 
   const onSuccess = (coords: GeolocationPosition) => {
