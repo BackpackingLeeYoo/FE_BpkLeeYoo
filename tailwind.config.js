@@ -17,6 +17,9 @@ module.exports = {
       spacing: px0_200,
       width: px0_1000,
       height: px0_1000,
+      backgroundImage: {
+        "main-img": "url('/src/images/sign/main.jpg')",
+      },
     },
   },
   plugins: [],
