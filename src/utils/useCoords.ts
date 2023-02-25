@@ -7,8 +7,8 @@ interface UseCoordsState {
 
 export default function useCoords() {
   const [coords, setCoords] = React.useState<UseCoordsState>({
-    latitude: 0,
-    longitude: 0,
+    latitude: 37.486289,
+    longitude: 126.926644,
   });
 
   const onSuccess = (coords: GeolocationPosition) => {
@@ -27,7 +27,7 @@ export default function useCoords() {
       if (navigator.geolocation) {
         return navigator.geolocation.getCurrentPosition(onSuccess);
       }
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(myLocation);
   }, []);
 
