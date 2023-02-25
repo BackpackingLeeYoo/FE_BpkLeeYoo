@@ -27,7 +27,7 @@ const StampList = (props: any) => {
     const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
     console.log(newDistance);
 
-    if (isLogin() && newDistance) {
+    if (isLogin() && newDistance <= 2000) {
       SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
       return navigate(`/certification/${stamp.stampId}?${stamp.stampName}`);
     }
@@ -68,7 +68,7 @@ const StampList = (props: any) => {
 
   if (props?.stampList?.isLoading)
     return (
-      <div className="flex justify-center mx-auto mt-100">
+      <div className="mx-auto mt-100 flex justify-center">
         <Spinner />
       </div>
     );
@@ -85,17 +85,17 @@ const StampList = (props: any) => {
         </p>
       </div>
 
-      <div className="flex flex-wrap w-full">
+      <div className="flex w-full flex-wrap">
         {stampList?.map((stamp: IStampList, idx: number) => {
           return (
             <Fragment key={idx}>
-              <div className="flex flex-col items-center mb-15 basis-1/3">
+              <div className="mb-15 flex basis-1/3 flex-col items-center">
                 {stamp?.isStamp ? (
                   <img
                     onClick={() => getReason(stamp)}
                     src={stamp.stampImage}
                     onError={handleImgError}
-                    className="mb-10 font-medium rounded-full cursor-pointer h-100 w-100"
+                    className="mb-10 h-100 w-100 cursor-pointer rounded-full font-medium"
                   />
                 ) : (
                   <div
@@ -105,9 +105,9 @@ const StampList = (props: any) => {
                     <img
                       src={stamp.stampImage}
                       onError={handleImgError}
-                      className="font-medium border-2 border-white border-solid rounded-full h-100 w-100"
+                      className="h-100 w-100 rounded-full border-2 border-solid border-white font-medium"
                     />
-                    <p className="absolute font-black text-gray text-20">인증전</p>
+                    <p className="text-gray absolute text-20 font-black">인증전</p>
                   </div>
                 )}
                 <p className="text-13">{stamp.stampName}</p>
