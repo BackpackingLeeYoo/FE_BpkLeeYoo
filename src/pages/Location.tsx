@@ -2,6 +2,13 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../elements/IconButton";
 import useCoords from "../utils/useCoords";
+import { stampList } from "../model/stamp-list";
+
+interface IStampList {
+  stampName: string;
+  latitude: number;
+  longitude: number;
+}
 
 declare global {
   interface Window {
@@ -41,7 +48,24 @@ const Location = () => {
         const options = {
           center: new window.kakao.maps.LatLng(latitude, longitude),
         };
+
         const map = new window.kakao.maps.Map(container, options);
+
+        stampList.forEach((place: IStampList) => {
+          const markerList = new window.kakao.maps.Marker({
+            position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+            zIndex: 400,
+          });
+
+          const infowindow = new window.kakao.maps.InfoWindow({
+            content: place.stampName,
+            removable: true,
+          });
+
+          infowindow.open(map, markerList);
+          markerList.setMap(map);
+        });
+
         const markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
 
         const circle = new kakao.maps.Circle({
@@ -74,9 +98,9 @@ const Location = () => {
           content: iwContent,
           removable: iwRemoveable,
         });
+
         infowindow.open(map, marker);
         circle.setMap(map);
-
         marker.setMap(map);
       });
     };
@@ -88,7 +112,7 @@ const Location = () => {
 
   return (
     <div className="mx-auto h-[100vh] w-[100vw]" id="map">
-      <nav className="fixed top-0 z-10 flex items-center w-full h-50 px-15">
+      <nav className="fixed top-0 z-10 flex h-50 w-full items-center px-15">
         <IconButton color="black" size="40" backIcon _onClick={() => navigator(-1)} />
       </nav>
     </div>
