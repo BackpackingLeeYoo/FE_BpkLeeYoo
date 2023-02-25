@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../elements/IconButton";
 import useCoords from "../utils/useCoords";
@@ -17,10 +17,27 @@ declare global {
 }
 
 const Location = () => {
-  const navigator = useNavigate();
+  const navigators = useNavigate();
 
-  const { latitude, longitude } = useCoords();
-  console.log(latitude, longitude);
+  // const { latitude, longitude } = useCoords();
+  // console.log(latitude, longitude);
+
+  const [currentCoords, setCurrentCoords] = useState({ latitude: 37.486289, longitude: 126.926644 });
+
+  useEffect(() => {
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentCoords({ latitude, longitude });
+      },
+      (error) => console.error(error),
+      { enableHighAccuracy: true, maximumAge: 0 }
+    );
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
+  }, []);
 
   useEffect(() => {
     const mapScript = document.createElement("script");
@@ -46,7 +63,7 @@ const Location = () => {
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(latitude, longitude),
+          center: new window.kakao.maps.LatLng(currentCoords?.latitude, currentCoords?.longitude),
         };
 
         const map = new window.kakao.maps.Map(container, options);
@@ -66,7 +83,7 @@ const Location = () => {
           markerList.setMap(map);
         });
 
-        const markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
+        const markerPosition = new window.kakao.maps.LatLng(currentCoords.latitude, currentCoords.longitude);
 
         const circle = new kakao.maps.Circle({
           center: markerPosition, // 원의 중심좌표 입니다
@@ -108,12 +125,12 @@ const Location = () => {
     mapScript.addEventListener("load", onLoadKakaoMap);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [latitude, longitude]);
+  }, []);
 
   return (
     <div className="mx-auto h-[100vh] w-[100vw]" id="map">
       <nav className="fixed top-0 z-10 flex h-50 w-full items-center px-15">
-        <IconButton color="black" size="40" backIcon _onClick={() => navigator(-1)} />
+        <IconButton color="black" size="40" backIcon _onClick={() => navigators(-1)} />
       </nav>
     </div>
   );

@@ -27,7 +27,7 @@ export default function useCoords() {
       if (navigator.geolocation) {
         return navigator.geolocation.getCurrentPosition(onSuccess);
       }
-    }, 1000);
+    }, 3000);
     return () => clearTimeout(myLocation);
   }, []);
 
