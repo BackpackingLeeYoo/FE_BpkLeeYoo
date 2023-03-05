@@ -12,8 +12,7 @@ const Certification = () => {
   const location = useLocation();
   const navigator = useNavigate();
 
-  const stampLocation = location?.search?.replace("?", "");
-
+  const stampLocation = decodeURIComponent(location?.search).replace("?", "");
   const setUploadImage = (event: any) => {
     const uploadImage = event.target.files;
 
