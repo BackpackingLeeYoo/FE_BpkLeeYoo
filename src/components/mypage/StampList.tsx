@@ -24,14 +24,12 @@ const StampList = (props: any) => {
   const { latitude, longitude, error } = useCoords();
 
   const checkSameArea = (stamp: any) => {
-    if (latitude && longitude) {
-      const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
-      console.log(newDistance);
+    const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);
+    console.log(newDistance);
 
-      if (isLogin() && newDistance <= 2000) {
-        SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
-        return navigate(`/certification/${stamp.stampId}?${stamp.stampName}`);
-      }
+    if (isLogin() && newDistance <= 2000) {
+      SweetAlertHook(2000, `${stamp.stampName} 도착을 축하드립니다`, "success");
+      return navigate(`/certification/${stamp.stampId}?${stamp.stampName}`);
     }
 
     if (!isLogin()) {
@@ -42,7 +40,9 @@ const StampList = (props: any) => {
   };
 
   //두지점의 거리 구하기
-  const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+  const getDistance = (lat1: number, lon1: number, lat2: number | null, lon2: number | null) => {
+    if (!lat2 || !lon2) return;
+
     if (lat1 == lat2 && lon1 == lon2) return 0;
     const radLat1 = (Math.PI * lat1) / 180;
     const radLat2 = (Math.PI * lat2) / 180;
@@ -75,8 +75,6 @@ const StampList = (props: any) => {
       </div>
     );
 
-  // if (error) return <>{SweetAlertHook(2000, `${error?.message}`, "error")}</>;
-
   return (
     <div className="mx-auto mb-50 max-w-375">
       <Weather />
@@ -105,7 +103,7 @@ const StampList = (props: any) => {
                     className="mb-10 flex h-100 w-100	cursor-pointer items-center justify-center rounded-full bg-[#182C4D] font-medium opacity-60"
                   >
                     <img
-                      src={stamp.stampImage}
+                      src={defaultImg}
                       onError={handleImgError}
                       className="h-100 w-100 rounded-full border-2 border-solid border-white font-medium"
                     />

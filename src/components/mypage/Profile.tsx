@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { user } from "../../recoil/user";
@@ -12,6 +12,10 @@ const Profile = (props: any) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(user);
 
+  useEffect(() => {
+    setUserInfo(user);
+  }, []);
+
   return (
     <>
       <div className="mx-auto mt-80 mb-42 flex w-full max-w-375 flex-col items-start rounded-[12px] bg-white p-20 drop-shadow-2xl">
@@ -21,7 +25,7 @@ const Profile = (props: any) => {
               userInfo ? userInfo.profileImg : "https://image.nbkorea.com/NBRB_PC/event/imc/nbxjeonhwangil/h01_on.jpg"
             }
             alt="profile-image"
-            className="mr-20 border-gray-600 border-solid rounded-full h-60 w-60 border-1"
+            className="mr-20 h-60 w-60 rounded-full border-1 border-solid border-gray-600"
           />
           <div className="flex flex-col">
             <p className="mb-15 text-22">
