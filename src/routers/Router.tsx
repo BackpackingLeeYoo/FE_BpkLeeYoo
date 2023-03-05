@@ -49,7 +49,7 @@ const Router = () => {
             }
           />
           <Route path="/reason/:stampId" element={<Reason />} />
-          <Route path="/reason/list" element={<ReasonList />} />
+          <Route path="/list" element={<ReasonList />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/auth/kakao/callback" element={<Kakao />} />
