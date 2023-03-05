@@ -80,7 +80,7 @@ const Reason = () => {
   // }, []);
 
   return (
-    <div className="mx-auto mb-119 max-w-375">
+    <div className="mx-auto mb-119 w-full">
       <div className="mt-75 mb-15 flex items-center px-15">
         <img
           src={

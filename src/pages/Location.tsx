@@ -20,8 +20,6 @@ declare global {
 const Location = () => {
   const navigators = useNavigate();
   const { latitude, longitude, error } = useCoords();
-
-  const [currentCoords, setCurrentCoords] = useState<UseCoordsState>();
   const [isTouched, setIsTouched] = useState(false);
   const [level, setLevel] = useState<number>(3);
 
@@ -33,13 +31,6 @@ const Location = () => {
   const startGeoLocation = () => {
     setIsTouched(false);
   };
-
-  useEffect(() => {
-    if (isTouched) return;
-
-    console.log("현재위치 불러오기");
-    setCurrentCoords({ latitude, longitude });
-  }, [isTouched]);
 
   useEffect(() => {
     const mapScript = document.createElement("script");
@@ -62,11 +53,13 @@ const Location = () => {
         },`;
 
     const onLoadKakaoMap = () => {
+      if (isTouched || !latitude || !longitude || error) return;
+
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
 
         const options = {
-          center: new window.kakao.maps.LatLng(currentCoords?.latitude, currentCoords?.longitude),
+          center: new window.kakao.maps.LatLng(latitude, longitude),
           level: level,
         };
 
@@ -76,7 +69,7 @@ const Location = () => {
           setLevel(map.getLevel());
         });
 
-        const markerPosition = new window.kakao.maps.LatLng(currentCoords?.latitude, currentCoords?.longitude);
+        const markerPosition = new window.kakao.maps.LatLng(latitude, longitude);
 
         const circle = new kakao.maps.Circle({
           center: markerPosition, // 원의 중심좌표 입니다
@@ -130,34 +123,33 @@ const Location = () => {
           });
         });
 
-        // 지도에 확대 축소 컨트롤을 생성한다
         const zoomControl = new kakao.maps.ZoomControl();
-
-        // 지도의 우측에 확대 축소 컨트롤을 추가한다
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
       });
     };
 
     mapScript.addEventListener("load", onLoadKakaoMap);
 
-    console.log("카카오지도 갱신", currentCoords?.latitude, currentCoords?.longitude);
-
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [currentCoords?.latitude, currentCoords?.longitude, isTouched]);
+  }, [latitude, longitude, isTouched]);
 
   if (error) {
     return <div>{error}</div>;
   }
 
   if (!latitude || !longitude) {
-    return <Spinner />;
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <>
       <div className="mx-auto h-[100vh] w-[100vw]" id="map" onTouchStart={handleTouchStart}>
         <nav className="fixed top-0 z-10 flex h-50 w-full items-center px-15">
-          <IconButton color="black" size="40" backIcon _onClick={() => navigators(-1)} />
+          <IconButton color="black" size="40" backIcon _onClick={() => navigators("/")} />
         </nav>
       </div>
       <button className="fixed bottom-0 z-10 h-40 w-100 bg-[#FFF]" onClick={startGeoLocation}>
