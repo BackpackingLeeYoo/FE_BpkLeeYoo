@@ -66,22 +66,22 @@ const Reason = () => {
 
   const params = useParams();
 
-  const getReason = async () => {
-    try {
-      const { data } = await instance.get(`/mypage/${params.stampId}`);
-      setReason(data);
-    } catch (error: unknown) {
-      console.log(error);
-    }
-  };
+  // const getReason = async () => {
+  //   try {
+  //     const { data } = await instance.get(`/mypage`);
+  //     setReason(data);
+  //   } catch (error: unknown) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getReason();
-  }, []);
+  // useEffect(() => {
+  //   getReason();
+  // }, []);
 
   return (
     <div className="mx-auto mb-119 max-w-375">
-      <div className="flex items-center mt-75 mb-15 px-15">
+      <div className="mt-75 mb-15 flex items-center px-15">
         <img
           src={
             reason.stamp.userId.profileImg
@@ -89,7 +89,7 @@ const Reason = () => {
               : "https://image.nbkorea.com/NBRB_PC/event/imc/nbxjeonhwangil/h01_on.jpg"
           }
           alt="profile-image"
-          className="mr-20 border-gray-600 border-solid rounded-full h-60 w-60 border-1"
+          className="mr-20 h-60 w-60 rounded-full border-1 border-solid border-gray-600"
         />
         <div className="flex flex-col">
           <p className="mb-15 text-16">{reason.stamp.userId.nickname}</p>
@@ -98,7 +98,7 @@ const Reason = () => {
       </div>
       <div className="flex h-[375px] w-full flex-col items-center justify-center bg-[#F3F3F3]">
         <img
-          className="object-cover w-full h-full"
+          className="h-full w-full object-cover"
           src={
             reason.stamp.stampImage
               ? reason.stamp.stampImage
@@ -109,7 +109,7 @@ const Reason = () => {
       </div>
 
       <div className="w-full px-15 text-15">
-        <p className="font-black mt-18">
+        <p className="mt-18 font-black">
           {reason.stamp.userId.nickname ? reason.stamp.userId.nickname : "백패커"}
           <span className="font-norma text-12"> 님의 이유</span>
         </p>

@@ -16,8 +16,6 @@ import PrivateRoute from "./PrivateRouter";
 import Reason from "../pages/Reason";
 
 const Router = () => {
-  // useSignInCheck();
-
   return (
     <ErrorBoundary FallbackComponent={Error}>
       <BrowserRouter>
@@ -50,14 +48,7 @@ const Router = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/reason/:stampId"
-            element={
-              <PrivateRoute>
-                <Reason />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/reason" element={<Reason />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/auth/kakao/callback" element={<Kakao />} />
