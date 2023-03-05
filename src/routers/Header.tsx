@@ -19,7 +19,7 @@ const Header = () => {
     if (isCertification) setTitle("인증하기");
     if (isReasonList) setTitle("너의 이유");
     if (isReason) setTitle("나의 이유");
-  }, []);
+  }, [path]);
 
   if (isSignIn || isMap) return <></>;
 
