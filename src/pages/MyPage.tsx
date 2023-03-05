@@ -15,7 +15,9 @@ const MyPage = () => {
     setStampList(data);
   };
 
-  getMyStamp();
+  useEffect(() => {
+    getMyStamp();
+  }, []);
 
   if (!isLogin()) {
     navigator("/sginin");
