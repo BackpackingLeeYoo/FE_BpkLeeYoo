@@ -20,7 +20,7 @@ const SignIn = () => {
     <Fragment>
       <div className="flex h-screen w-screen flex-col items-center justify-end bg-main-img bg-cover bg-center">
         <div onClick={signInBtn} className="fixed bottom-180">
-          <img className="w-full max-w-200" src={kakaoLogin} alt="kakaoLogin" />
+          <img className="w-full max-w-250" src={kakaoLogin} alt="kakaoLogin" />
         </div>
       </div>
     </Fragment>

@@ -14,14 +14,14 @@ const NotFound = () => {
         <img
           width={325}
           height={319}
-          src="http://picturebook-illust.com/upload_board/new_Gallery/Original/s/8[46].jpg"
+          src="https://i.postimg.cc/fRt5LJPk/Kakao-Talk-20221209-212017835.png"
           alt="notFound"
         />
         <span className="text-3xl font-black text-red-600">잘못된 접근 지역!</span>
         <motion.button
           whileHover={{ scale: 1.05 }}
           onClick={() => navigation("/")}
-          className="bg-[#27AE60] h-[40px] w-[130px] rounded-md text-md font-semibold text-white"
+          className="text-md h-[40px] w-[130px] rounded-md bg-[#27AE60] font-semibold text-white"
         >
           돌아가기
         </motion.button>

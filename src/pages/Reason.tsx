@@ -89,7 +89,7 @@ const Reason = () => {
               : "https://image.nbkorea.com/NBRB_PC/event/imc/nbxjeonhwangil/h01_on.jpg"
           }
           alt="profile-image"
-          className="mr-20 h-60 w-60 rounded-full border-1 border-solid border-gray-600"
+          className="mr-20 h-50 w-50 rounded-full border-1 border-solid border-gray-600 object-contain"
         />
         <div className="flex flex-col">
           <p className="mb-15 text-16">{reason.stamp.userId.nickname}</p>

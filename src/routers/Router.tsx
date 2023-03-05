@@ -24,14 +24,7 @@ const Router = () => {
         </Helmet>
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <MyPage />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/" element={<MyPage />} />
           <Route
             path="/map"
             element={
@@ -40,14 +33,7 @@ const Router = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/certification/:stampId"
-            element={
-              <PrivateRoute>
-                <Certification />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/certification/:stampId" element={<Certification />} />
           <Route path="/reason/:stampId" element={<Reason />} />
           <Route path="/list" element={<ReasonList />} />
           <Route path="/signin" element={<SignIn />} />

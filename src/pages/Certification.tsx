@@ -45,7 +45,7 @@ const Certification = () => {
     <>
       <div className="mx-auto mb-119 max-w-375">
         <div className="mt-75 mb-35 px-15">
-          <p className="font-black text-18">
+          <p className="text-18 font-black">
             🚩 <span className="text-[#27AE60]">{stampLocation} </span>
             도착완료!
           </p>
@@ -58,7 +58,7 @@ const Certification = () => {
                 <p className="mt-18 text-14 font-black text-[#aaaaaa]">사진을 첨부해 주세요.</p>
               </>
             ) : (
-              <img className="object-contain w-full h-full" src={imageSrc} alt="" />
+              <img className="h-full w-full object-contain" src={imageSrc} alt="" />
             )}
           </div>
           <input
@@ -75,7 +75,7 @@ const Certification = () => {
         <div className="mx-auto flex h-[160px] w-[335px] flex-col items-center justify-center rounded-xl bg-[#F3F3F3] p-20">
           <textarea
             onChange={setUploadText}
-            className="w-full h-full font-black bg-transparent outline-none resize-none text-14"
+            className="h-full w-full resize-none bg-transparent text-14 font-black outline-none"
             placeholder="예) 선자령에 가면 구름과 맞닿을 수 있다"
           ></textarea>
         </div>
