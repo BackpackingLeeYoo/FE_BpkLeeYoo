@@ -12,10 +12,6 @@ const Profile = (props: any) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(user);
 
-  useEffect(() => {
-    setUserInfo(user);
-  }, []);
-
   return (
     <>
       <div className="mx-auto mt-80 mb-42 flex w-full max-w-375 flex-col items-start rounded-[12px] bg-white p-20 drop-shadow-2xl">
