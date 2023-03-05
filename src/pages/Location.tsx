@@ -87,8 +87,8 @@ const Location = () => {
         const iwContent = message;
         const iwRemoveable = true;
 
-        const imageSrc = "https://image.nbkorea.com/NBRB_Mobile/event/imc/nbxjeonhwangil/layer01.png", // 마커 이미지 url, 스프라이트 이미지
-          imageSize = new kakao.maps.Size(77, 107), // 마커 이미지의 크기
+        const imageSrc = "https://i.postimg.cc/T37KDFj7/Kakao-Talk-20221209-212015184.png", // 마커 이미지 url, 스프라이트 이미지
+          imageSize = new kakao.maps.Size(100, 100), // 마커 이미지의 크기
           imgOptions = { offset: new kakao.maps.Point(27, 69) },
           markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
 
