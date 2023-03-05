@@ -18,7 +18,7 @@ interface IStampList {
 
 const StampList = (props: any) => {
   const navigate = useNavigate();
-  const defaultImg = "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg";
+  const defaultImg = "https://i.postimg.cc/T37KDFj7/Kakao-Talk-20221209-212015184.png";
   const stampList = props.stampList.data?.data?.stamps;
   const stampCount = props.stampList.data?.data?.isStampCount;
   const { latitude, longitude, error } = useCoords();
