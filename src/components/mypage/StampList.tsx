@@ -36,7 +36,8 @@ const StampList = (props: any) => {
       SweetAlertHook(1000, `로그인 후 이용해주세요`, "warning");
       return navigate(`/signin`);
     }
-    return SweetAlertHook(1500, "해당 위치가 아닙니다", "error");
+
+    return SweetAlertHook(1500, "해당 위치가 아닙니다. 화면 상단의 현재 위치 확인을 해주세요", "error");
   };
 
   //두지점의 거리 구하기
