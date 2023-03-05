@@ -66,21 +66,21 @@ const Reason = () => {
 
   const params = useParams();
 
-  // const getReason = async () => {
-  //   try {
-  //     const { data } = await instance.get(`/mypage`);
-  //     setReason(data);
-  //   } catch (error: unknown) {
-  //     console.log(error);
-  //   }
-  // };
+  const getReason = async () => {
+    try {
+      const { data } = await instance.get(`/mypage/${params.stampId}`);
+      setReason(data);
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getReason();
-  // }, []);
+  useEffect(() => {
+    getReason();
+  }, []);
 
   return (
-    <div className="mx-auto mb-119 w-full">
+    <div className="mx-auto mb-119 max-w-375">
       <div className="mt-75 mb-15 flex items-center px-15">
         <img
           src={

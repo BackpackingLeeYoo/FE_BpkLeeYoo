@@ -15,9 +15,9 @@ const Header = () => {
   if (isCertification || isReason)
     return (
       <>
-        <div className="mx-auto max-w-375">
+        <div className="mx-auto w-full">
           <nav className="fixed top-0 z-10 flex h-50 w-full max-w-375 items-center justify-center border-b-1 border-solid border-[#AAAAAA] bg-white px-15">
-            <div className="flex items-center w-full">
+            <div className="flex w-full items-center">
               <IconButton color="black" size="25" backIcon _onClick={() => navigator("/")} />
               <p className="ml-15 text-18 font-black text-[#35393D]">{isCertification ? "인증하기" : "나의이유"}</p>
             </div>

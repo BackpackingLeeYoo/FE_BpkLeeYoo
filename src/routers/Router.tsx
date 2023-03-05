@@ -11,9 +11,9 @@ import Kakao from "../components/signIn/Kakao";
 import MenuBar from "./MenuBar";
 import Map from "../pages/Location";
 import Certification from "../pages/Certification";
-import { useSignInCheck } from "../api/userQuery";
 import PrivateRoute from "./PrivateRouter";
 import Reason from "../pages/Reason";
+import ReasonList from "../pages/ReasonList";
 
 const Router = () => {
   return (
@@ -48,7 +48,8 @@ const Router = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/reason" element={<Reason />} />
+          <Route path="/reason/:stampId" element={<Reason />} />
+          <Route path="/reason/list" element={<ReasonList />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/auth/kakao/callback" element={<Kakao />} />

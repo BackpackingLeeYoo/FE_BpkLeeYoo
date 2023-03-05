@@ -134,7 +134,7 @@ const Location = () => {
   }, [latitude, longitude, isTouched]);
 
   if (error) {
-    return <div>{error}</div>;
+    window.location.reload();
   }
 
   if (!latitude || !longitude) {

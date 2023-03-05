@@ -20,7 +20,7 @@ const MenuBar = () => {
           <p className="mt-4 cursor-pointer">MY</p>
         </div>
 
-        <div className="flex cursor-pointer flex-col items-center" onClick={() => navigator("/reason")}>
+        <div className="flex cursor-pointer flex-col items-center" onClick={() => navigator("/reason/list")}>
           <IconButton color="gray" backpack />
           <p className="mt-4 cursor-pointer">이유</p>
         </div>
