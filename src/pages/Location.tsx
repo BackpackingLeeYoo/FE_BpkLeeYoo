@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../elements/IconButton";
 import { stampList } from "../model/stamp-list";
@@ -19,8 +19,23 @@ const Location = () => {
   const navigators = useNavigate();
 
   const [currentCoords, setCurrentCoords] = useState({ latitude: 37.486289, longitude: 126.926644 });
+  const [isTouched, setIsTouched] = useState(false);
+  const [level, setLevel] = useState<number>(3);
+
+  const handleTouchStart = (e: SyntheticEvent) => {
+    console.log("touched", e);
+    setIsTouched(true);
+  };
+
+  const startGeoLocation = () => {
+    setIsTouched(false);
+  };
 
   useEffect(() => {
+    if (isTouched) return;
+
+    console.log("현재위치 불러오기");
+
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -33,7 +48,7 @@ const Location = () => {
     return () => {
       navigator.geolocation.clearWatch(watchId);
     };
-  }, []);
+  }, [isTouched]);
 
   useEffect(() => {
     const mapScript = document.createElement("script");
@@ -48,21 +63,27 @@ const Location = () => {
       size: {
         width: 63,
         height: 68,
-      }, // 마커이미지의 크기입니다
+      },
       options: {
         offset: {
           x: 27,
           y: 69,
-        },`; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를
+        },`;
 
     const onLoadKakaoMap = () => {
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
+
         const options = {
           center: new window.kakao.maps.LatLng(currentCoords?.latitude, currentCoords?.longitude),
+          level: level,
         };
 
         const map = new window.kakao.maps.Map(container, options);
+
+        kakao.maps.event.addListener(map, "zoom_changed", function () {
+          setLevel(map.getLevel());
+        });
 
         const markerPosition = new window.kakao.maps.LatLng(currentCoords.latitude, currentCoords.longitude);
 
@@ -131,14 +152,19 @@ const Location = () => {
     console.log("카카오지도 갱신", currentCoords?.latitude, currentCoords?.longitude);
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, [currentCoords?.latitude, currentCoords?.longitude]);
+  }, [currentCoords?.latitude, currentCoords?.longitude, isTouched]);
 
   return (
-    <div className="mx-auto h-[100vh] w-[100vw]" id="map">
-      <nav className="fixed top-0 z-10 flex h-50 w-full items-center px-15">
-        <IconButton color="black" size="40" backIcon _onClick={() => navigators(-1)} />
-      </nav>
-    </div>
+    <>
+      <div className="mx-auto h-[100vh] w-[100vw]" id="map" onTouchStart={handleTouchStart}>
+        <nav className="fixed top-0 z-10 flex h-50 w-full items-center px-15">
+          <IconButton color="black" size="40" backIcon _onClick={() => navigators(-1)} />
+        </nav>
+      </div>
+      <button className="fixed bottom-0 z-10 h-40 w-100 bg-[#FFF]" onClick={startGeoLocation}>
+        현재위치찾기
+      </button>
+    </>
   );
 };
 
