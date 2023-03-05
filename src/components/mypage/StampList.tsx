@@ -21,7 +21,7 @@ const StampList = (props: any) => {
   const defaultImg = "http://picturebook-illust.com/upload_board/new_Gallery/ThumbNail/s/thumb_20191022182318.jpg";
   const stampList = props.stampList.data?.data?.stamps;
   const stampCount = props.stampList.data?.data?.isStampCount;
-  const { latitude, longitude } = useCoords();
+  const { latitude, longitude, error } = useCoords();
 
   const checkSameArea = (stamp: any) => {
     const newDistance = getDistance(stamp.latitude, stamp.longitude, latitude, longitude);

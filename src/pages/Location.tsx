@@ -1,7 +1,9 @@
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import IconButton from "../elements/IconButton";
 import { stampList } from "../model/stamp-list";
+import useCoords, { UseCoordsState } from "../utils/useCoords";
 
 interface IStampList {
   stampName: string;
@@ -17,8 +19,9 @@ declare global {
 
 const Location = () => {
   const navigators = useNavigate();
+  const { latitude, longitude, error } = useCoords();
 
-  const [currentCoords, setCurrentCoords] = useState({ latitude: 37.486289, longitude: 126.926644 });
+  const [currentCoords, setCurrentCoords] = useState<UseCoordsState>();
   const [isTouched, setIsTouched] = useState(false);
   const [level, setLevel] = useState<number>(3);
 
@@ -35,19 +38,7 @@ const Location = () => {
     if (isTouched) return;
 
     console.log("현재위치 불러오기");
-
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentCoords({ latitude, longitude });
-      },
-      (error) => console.error(error),
-      { enableHighAccuracy: true, maximumAge: 0, timeout: 1000 }
-    );
-
-    return () => {
-      navigator.geolocation.clearWatch(watchId);
-    };
+    setCurrentCoords({ latitude, longitude });
   }, [isTouched]);
 
   useEffect(() => {
@@ -85,7 +76,7 @@ const Location = () => {
           setLevel(map.getLevel());
         });
 
-        const markerPosition = new window.kakao.maps.LatLng(currentCoords.latitude, currentCoords.longitude);
+        const markerPosition = new window.kakao.maps.LatLng(currentCoords?.latitude, currentCoords?.longitude);
 
         const circle = new kakao.maps.Circle({
           center: markerPosition, // 원의 중심좌표 입니다
@@ -153,6 +144,14 @@ const Location = () => {
 
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
   }, [currentCoords?.latitude, currentCoords?.longitude, isTouched]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!latitude || !longitude) {
+    return <Spinner />;
+  }
 
   return (
     <>

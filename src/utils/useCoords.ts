@@ -1,35 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-interface UseCoordsState {
+export interface UseCoordsState {
   latitude: number;
   longitude: number;
+  error?: null | string;
 }
 
-export default function useCoords() {
-  const [coords, setCoords] = React.useState<UseCoordsState>({
+const useCoords = () => {
+  const [coords, setCoords] = useState<UseCoordsState>({
     latitude: 37.486289,
     longitude: 126.926644,
+    error: null,
   });
 
-  const onSuccess = (coords: GeolocationPosition) => {
-    setCoords({
-      latitude: coords.coords.latitude,
-      longitude: coords.coords.longitude,
-    });
-  };
-
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(onSuccess);
-  }, []);
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCoords({ latitude, longitude, error: null });
+      },
+      (error) => {
+        setCoords((prevState) => ({
+          ...prevState,
+          error: error.message,
+        }));
+      },
+      { enableHighAccuracy: true, maximumAge: 0 }
+    );
 
-  useEffect(() => {
-    const myLocation = setInterval(() => {
-      if (navigator.geolocation) {
-        return navigator.geolocation.getCurrentPosition(onSuccess);
-      }
-    }, 3000);
-    return () => clearTimeout(myLocation);
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
 
   return coords;
-}
+};
+
+export default useCoords;
