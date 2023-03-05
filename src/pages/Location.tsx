@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IconButton from "../elements/IconButton";
-import useCoords from "../utils/useCoords";
 import { stampList } from "../model/stamp-list";
 
 interface IStampList {
@@ -19,9 +18,6 @@ declare global {
 const Location = () => {
   const navigators = useNavigate();
 
-  // const { latitude, longitude } = useCoords();
-  // console.log(latitude, longitude);
-
   const [currentCoords, setCurrentCoords] = useState({ latitude: 37.486289, longitude: 126.926644 });
 
   useEffect(() => {
@@ -31,7 +27,7 @@ const Location = () => {
         setCurrentCoords({ latitude, longitude });
       },
       (error) => console.error(error),
-      { enableHighAccuracy: true, maximumAge: 0 }
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 1000 }
     );
 
     return () => {
@@ -68,21 +64,6 @@ const Location = () => {
 
         const map = new window.kakao.maps.Map(container, options);
 
-        stampList.forEach((place: IStampList) => {
-          const markerList = new window.kakao.maps.Marker({
-            position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
-            zIndex: 400,
-          });
-
-          const infowindow = new window.kakao.maps.InfoWindow({
-            content: place.stampName,
-            removable: true,
-          });
-
-          infowindow.open(map, markerList);
-          markerList.setMap(map);
-        });
-
         const markerPosition = new window.kakao.maps.LatLng(currentCoords.latitude, currentCoords.longitude);
 
         const circle = new kakao.maps.Circle({
@@ -109,23 +90,48 @@ const Location = () => {
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
           image: markerImage,
+          zIndex: 100,
         });
 
-        const infowindow = new kakao.maps.InfoWindow({
-          content: iwContent,
-          removable: iwRemoveable,
-        });
-
-        infowindow.open(map, marker);
         circle.setMap(map);
         marker.setMap(map);
+
+        const MarkerListImageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+        const MarkerListImageSize = new kakao.maps.Size(24, 35);
+        const markerListImage = new kakao.maps.MarkerImage(MarkerListImageSrc, MarkerListImageSize);
+
+        stampList.forEach((place: IStampList) => {
+          const markerList = new window.kakao.maps.Marker({
+            map: map,
+            position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+            image: markerListImage,
+            title: place.stampName,
+          });
+
+          const contentStr = `<div class="flex items-center justify-center rounded-[10px] h-30 min-w-60 mb-40 p-10 font-black bg-white">${place.stampName}</div>`;
+
+          const customOverlay = new kakao.maps.CustomOverlay({
+            map: map,
+            position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+            content: contentStr,
+            yAnchor: 1,
+          });
+        });
+
+        // 지도에 확대 축소 컨트롤을 생성한다
+        const zoomControl = new kakao.maps.ZoomControl();
+
+        // 지도의 우측에 확대 축소 컨트롤을 추가한다
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
       });
     };
 
     mapScript.addEventListener("load", onLoadKakaoMap);
 
+    console.log("카카오지도 갱신", currentCoords?.latitude, currentCoords?.longitude);
+
     return () => mapScript.removeEventListener("load", onLoadKakaoMap);
-  }, []);
+  }, [currentCoords?.latitude, currentCoords?.longitude]);
 
   return (
     <div className="mx-auto h-[100vh] w-[100vw]" id="map">
